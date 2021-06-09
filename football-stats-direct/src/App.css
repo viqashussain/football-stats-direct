@@ -1,0 +1,182 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html,
+body,
+#root,
+#app,
+#app > div {
+  height: 100%;
+}
+
+#root {
+  flex-grow: 1;
+}
+
+.backdrop {
+  z-index: 999 !important;
+  color: #fff;
+}
+
+.app-root-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.league-logo {
+  height: 32px;
+  padding-right: 10px;
+}
+
+.league-button {
+  flex-grow: 1;
+}
+
+.player-stats-button {
+  flex-grow: 1;
+}
+
+.button-selected {
+  background-color: #e93991 !important;
+  color: white !important;
+}
+
+.button-group {
+  width: calc(100% - 32px);
+}
+
+.grid-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-container {
+  height: 100%;
+}
+
+.tool-bar {
+  background: #464851;
+  padding-left: 0 !important;
+}
+
+.league-button-card-content {
+  padding-bottom: 0 !important;
+}
+
+.header-logo {
+  height: 64px;
+}
+
+.logo-container {
+  flex-grow: 1;
+}
+
+.MuiSwitch-colorSecondary.Mui-checked {
+  color: #e93991 !important;
+}
+
+.MuiSwitch-track {
+  background-color: #e93991 !important;
+}
+
+.chart-container {
+  height: 100%;
+}
+
+.club-logo {
+  height: 32px;
+  padding-right: 5px;
+}
+
+.team-filter-button {
+  flex-grow: 1;
+}
+
+.graph-button-group {
+  padding-right: 20px;
+}
+
+.current-season {
+  padding-right: 20px;
+}
+
+.teams-button-group {
+  overflow: auto;
+}
+
+.button-explanatory-text {
+  text-align: center;
+  padding-bottom: 5px; 
+}
+
+.player-stats-card-content {
+  padding-bottom: 0px !important;
+}
+
+.MuiAccordionDetails-root {
+  display: block;
+}
+
+.nav-button {
+  background: #38e992 !important;
+  color: black !important;
+  font-weight: bold !important;
+  margin: 10px !important;
+}
+
+.nav-container {
+  flex-grow: 10;
+}
+
+.examples-container {
+  display: flex;
+  flex-grow: 1;
+}
+
+.example-image {
+  width: 100%;
+}
