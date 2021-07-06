@@ -32,7 +32,7 @@ import {
 } from "react-router-dom";
 import { About } from 'about';
 import PlayerTeamNameCellRenderer from 'custom-cell-renderers/PlayerTeamNameCellRenderer copy';
-import {LicenseManager} from "@ag-grid-enterprise/core";
+import { LicenseManager } from "@ag-grid-enterprise/core";
 LicenseManager.setLicenseKey("CompanyName=T/A Viqas Hussain,LicensedGroup=T/A Viqas Hussain,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=1,AssetReference=AG-016245,ExpiryDate=9_June_2022_[v2]_MTY1NDcyOTIwMDAwMA==1fe1806f4c1833622bb983af6ef92aeb");
 
 
@@ -137,10 +137,15 @@ class App extends Component<{}, any> {
     const leaguesRef = db.collection('leagues').doc(Leagues.PremierLeague);
     const doc = await leaguesRef.get();
     const data = JSON.parse(doc.data().data);
+    let leagueStandings = [];
+
+    if (data.response.length) {
+      leagueStandings = data.response[0].league.standings[0]
+    }
 
     this.setState({
       ...this.state,
-      rowData: data.response[0].league.standings[0],
+      rowData: leagueStandings,
       dataIsLoading: false,
       selectedLeague: Leagues.PremierLeague,
       columnDefs: this.getColumnDefs(),
@@ -318,14 +323,19 @@ class App extends Component<{}, any> {
     if (league != Leagues.All) {
       const leaguesRef = db.collection('leagues').doc(league);
       const doc = await leaguesRef.get();
-      rowData = JSON.parse(doc.data().data).response[0].league.standings[0]
+      if (JSON.parse(doc.data().data).response.length) {
+        rowData = JSON.parse(doc.data().data).response[0].league.standings[0]
+      }
     }
     else {
       const leaguesRef = db.collection('leagues')
       const doc = await leaguesRef.get();
 
       doc.docs.forEach(x => {
-        rowData = rowData.concat(JSON.parse(x.data().data).response[0].league.standings[0]);
+        const jsonParsed = JSON.parse(x.data().data);
+        if (jsonParsed.response.length) {
+          rowData = rowData.concat(jsonParsed.response[0].league.standings[0]);
+        }
       });
     }
 
@@ -643,7 +653,7 @@ class App extends Component<{}, any> {
         playerNameCellRenderer: PlayerNameCellRenderer,
         formCellRenderer: FormCellRenderer
       },
-      autoGroupColumnDef: { minWidth: 250, cellRendererParams: {innerRenderer: 'teamNameCellRenderer'}},
+      autoGroupColumnDef: { minWidth: 250, cellRendererParams: { innerRenderer: 'teamNameCellRenderer' } },
       modules: AllModules,
       selectedTeamFilterName: null,
       selectedGraphType: GraphType.Bar
@@ -661,7 +671,7 @@ class App extends Component<{}, any> {
       <div className='app-root-container'>
 
         <Router>
-        <Redirect from="/" exact to="/home" />
+          <Redirect from="/" exact to="/home" />
 
 
           <Backdrop className='backdrop' open={this.state.dataIsLoading}>
@@ -719,33 +729,33 @@ class App extends Component<{}, any> {
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.All ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.All)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://img.uefa.com/imgml/uefaorg/new/logo.png" alt="premier league" />
-              Top 5 European Leagues
-          </Button>
+                      Top 5 European Leagues
+                    </Button>
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.PremierLeague ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.PremierLeague)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://media.api-sports.io/football/leagues/39.png" alt="premier league" />
-              English Premier League
-          </Button>
+                      English Premier League
+                    </Button>
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.LaLiga ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.LaLiga)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://media.api-sports.io/football/leagues/140.png" alt="la liga" />
-              La Liga
-          </Button>
+                      La Liga
+                    </Button>
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.SerieA ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.SerieA)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://media.api-sports.io/football/leagues/135.png" alt="serie a" />
-              Serie A
-          </Button>
+                      Serie A
+                    </Button>
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.Ligue1 ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.Ligue1)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://media.api-sports.io/football/leagues/61.png" alt="ligue 1" />
-              Ligue 1
-          </Button>
+                      Ligue 1
+                    </Button>
                     <Button className={`league-button ${this.state.selectedLeague == Leagues.Bundesliga ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.League, Leagues.Bundesliga)} variant="outlined" color="primary">
                       <img className='league-logo' src="https://media.api-sports.io/football/leagues/78.png" alt="bundesliga" />
-              Bundesliga
-          </Button>
+                      Bundesliga
+                    </Button>
                   </ButtonGroup>
                 </CardContent>
 
@@ -756,28 +766,28 @@ class App extends Component<{}, any> {
                     <Button className={`player-stats-button ${this.state.selectedPlayerStat == PlayerStats.All ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.Player, PlayerStats.All)} variant="outlined" color="primary">
                       {/* <img className='league-logo' src="https://img.uefa.com/imgml/uefaorg/new/logo.png" alt="premier league" /> */}
-              All Players
-          </Button>
+                      All Players
+                    </Button>
                     <Button className={`player-stats-button ${this.state.selectedPlayerStat == PlayerStats.TopScorers ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.Player, PlayerStats.TopScorers)} variant="outlined" color="primary">
                       {/* <img className='league-logo' src="https://img.uefa.com/imgml/uefaorg/new/logo.png" alt="premier league" /> */}
-              Top 20 Scorers
-          </Button>
+                      Top 20 Scorers
+                    </Button>
                     <Button className={`player-stats-button ${this.state.selectedPlayerStat == PlayerStats.TopAssists ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.Player, PlayerStats.TopAssists)} variant="outlined" color="primary">
                       {/* <img className='league-logo' src="https://media.api-sports.io/football/leagues/39.png" alt="premier league" /> */}
-              Top 20 Most Assists
-          </Button>
+                      Top 20 Most Assists
+                    </Button>
                     <Button className={`player-stats-button ${this.state.selectedPlayerStat == PlayerStats.MostYellowCards ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.Player, PlayerStats.MostYellowCards)} variant="outlined" color="primary">
                       {/* <img className='league-logo' src="https://img.uefa.com/imgml/uefaorg/new/logo.png" alt="premier league" /> */}
-              Top 20 Most Yellow Cards
-          </Button>
+                      Top 20 Most Yellow Cards
+                    </Button>
                     <Button className={`player-stats-button ${this.state.selectedPlayerStat == PlayerStats.MostRedCards ? 'button-selected' : ''}`}
                       onClick={async () => this.updateGridDataMaster(StatsType.Player, PlayerStats.MostRedCards)} variant="outlined" color="primary">
                       {/* <img className='league-logo' src="https://media.api-sports.io/football/leagues/39.png" alt="premier league" /> */}
-              Top 20 Most Red Cards
-          </Button>
+                      Top 20 Most Red Cards
+                    </Button>
 
                   </ButtonGroup>
                 </CardContent>
