@@ -1,3 +1,3 @@
 # football-stats-direct
 
-See here: http://viqas.co.uk/home/article/39
+See here: https://viqas.co.uk/home/article/Football-Stats-Direct-Football-Stats-meet-AG-Grid
